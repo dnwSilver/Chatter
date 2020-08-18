@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
+    ],
+    "no-empty-interface": true
+  }
+}

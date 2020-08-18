@@ -1,0 +1,17 @@
+@import "../../infrastructure/dimension.module";
+@import "../../infrastructure/color.module";
+
+.panel {
+  background-color: $color-background-secondary;
+  border-radius: $size-border-radius;
+}
+
+.title {
+  padding: $size-padding-medium;
+  border-bottom: $size-border-small $style-border $color-border;
+  font-weight: 500;
+}
+
+.content {
+  padding: $size-padding-medium;
+}

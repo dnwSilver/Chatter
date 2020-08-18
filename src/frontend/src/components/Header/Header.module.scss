@@ -1,0 +1,9 @@
+@import "../../infrastructure/dimension.module";
+@import "../../infrastructure/color.module";
+
+.header {
+  background-color: $color-background-primary;
+  color: $color-text-accent;
+  font-size: $size-text-medium;
+  padding: $size-padding-medium 0 $size-padding-medium*2;
+}
