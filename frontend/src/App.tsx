@@ -3,12 +3,12 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import Profile from './components/Profile/Profile'
 import activities from './infrastructure/activities'
 import DialogsContainer from './components/Dialogs/DialogsContainer'
-import globalStore, {GlobalState} from './stores/redux-store'
+import globalStore from './stores/redux-store'
 import {connect, Provider} from 'react-redux'
 import {compose} from 'redux'
-import PlatformViewer from './contexts/platforms/PlatformViewer'
+import PlatformProvider from './contexts/platforms/PlatformContext'
 
-class App extends Component<StatePropsType & DispatchPropsType> {
+class App extends Component<DispatchPropsType> {
     catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
         alert('Some error occured')
     }
@@ -37,31 +37,25 @@ class App extends Component<StatePropsType & DispatchPropsType> {
     }
 }
 
-type StatePropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
     // initializeApp: () => void
 }
 
-type PropsType = StatePropsType & DispatchPropsType
+type PropsType = DispatchPropsType
 
-const mapStateToProps = (state: GlobalState) => ({})
 
-let AppContainer = compose<React.ComponentType>(
-    connect(mapStateToProps, {}))(App)
-
+const AppContainer = compose<React.ComponentType>(
+    connect())(App)
 
 const PatternApp: React.FC<PropsType> = () => {
     console.debug('PatternApp', 'RENDER')
     return <BrowserRouter>
         <Provider store={globalStore}>
-            <PlatformViewer>
+            <PlatformProvider>
                 <AppContainer/>
-            </PlatformViewer>
+            </PlatformProvider>
         </Provider>
     </BrowserRouter>
 }
 
 export default PatternApp
-
-// @ts-ignore
-window.store = globalStore.getState()

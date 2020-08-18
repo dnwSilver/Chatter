@@ -4,18 +4,18 @@ import {actions} from './DialogsActions'
 import {dialogMessages} from './DialogsSelectors'
 import Dialogs from './Dialogs'
 
-const mapStateToProps = (state: GlobalState): StatePropsType => ({
-    messages: dialogMessages(state)
-})
-
 type OwnPropsType = {}
 
-export type StatePropsType = {
+type StatePropsType = {
     messages: string[]
 }
 
-export type DispatchPropsType = {
+type DispatchPropsType = {
     onMessageSend: (message: string) => void
 }
+
+const mapStateToProps = (state: GlobalState): StatePropsType => ({
+    messages: dialogMessages(state)
+})
 
 export default connect<StatePropsType, DispatchPropsType, OwnPropsType, GlobalState>(mapStateToProps, {...actions})(Dialogs)
