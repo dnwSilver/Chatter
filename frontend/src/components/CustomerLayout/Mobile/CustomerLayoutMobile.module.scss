@@ -1,0 +1,15 @@
+@import "../../../infrastructure/dimension.module";
+@import "../../../infrastructure/color.module";
+
+.layout {
+  background-color: $color-background-primary;
+  font-weight: $weight-font-medium;
+  color: $color-text-secondary;
+  display: flex;
+  min-height: 100vh;
+}
+
+.content {
+  padding: $size-padding-medium;
+  width: 100%;
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../Header/Header'
 import activities from '../../infrastructure/activities'
 import Message from '../Message/Message'
-import CustomerLayoutContainer from '../Layout/Customer/CustomerLayoutContainer'
+import CustomerLayoutContainer from '../CustomerLayout/CustomerLayoutContainer'
 
 type PropsType = {
     messages: string[]

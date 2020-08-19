@@ -1,14 +1,17 @@
 import React from 'react'
-import CustomerLayout from '../Layout/Customer/CustomerLayout'
 import Header from '../Header/Header'
 import Panel from '../Panel/Panel'
 import activities from '../../infrastructure/activities'
+import CustomerLayoutContainer from '../CustomerLayout/CustomerLayoutContainer'
 
 const Profile = () => {
-    return <CustomerLayout header={<Header title={activities.profile.name}/>}
-                           body={<Panel title={'Информация по профилю'}
-                                        content={'Очень полезная информация'}/>}
-    />
+    const renderHeader = <Header title={activities.profile.name}/>
+
+    const renderBody = <Panel title={'Информация по профилю'}
+                              content={'Очень полезная информация'}/>
+
+    return <CustomerLayoutContainer header={renderHeader}
+                                    body={renderBody}/>
 }
 
 export default Profile

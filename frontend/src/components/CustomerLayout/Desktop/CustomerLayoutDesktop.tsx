@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './CustomerLayout.module.scss'
+import styles from './CustomerLayoutDesktop.module.scss'
 import SidebarContainer from '../../Sidebar/SidebarContainer'
 
 type PropsType = {
@@ -7,10 +7,10 @@ type PropsType = {
     body: React.ReactNode
 }
 
-const CustomerLayout = (props: PropsType) => {
+const CustomerLayoutDesktop = (props: PropsType) => {
     return <div className={styles.layout}>
         <div className={styles.navigation}>
-            <SidebarContainer />
+            <SidebarContainer/>
         </div>
         <div className={styles.content}>
             <div>
@@ -23,4 +23,4 @@ const CustomerLayout = (props: PropsType) => {
     </div>
 }
 
-export default CustomerLayout
+export default CustomerLayoutDesktop
