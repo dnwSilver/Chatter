@@ -1,7 +1,7 @@
 import React, {PropsWithChildren} from 'react'
 import Platform from './Platform'
 import {connect} from 'react-redux'
-import {GlobalState} from '../../stores/redux-store'
+import {GlobalState} from '../../stores/GlobalStore'
 import {currentPlatform} from './PlatformSelectors'
 import {actions} from './PlatformActions'
 
@@ -27,7 +27,7 @@ class PlatformProvider extends React.Component<PropsType> {
 
     handleWindowResize = () => {
         const platformBySize = window.innerWidth < 768 ? Platform.Mobile : Platform.Desktop
-        
+
         if (platformBySize !== this.props.platform)
             this.props.onPlatformChange(platformBySize)
     }

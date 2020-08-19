@@ -1,8 +1,11 @@
+import {IconType} from './IconTypes'
+
 export const project = 'CHATTER'
 
 export type Activity = {
     name: string
     url: string
+    icon: IconType
 }
 
 export type Area = {

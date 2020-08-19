@@ -7,11 +7,11 @@ import CustomerLayoutContainer from '../CustomerLayout/CustomerLayoutContainer'
 const Profile = () => {
     const renderHeader = <Header title={activities.profile.name}/>
 
-    const renderBody = <Panel title={'Информация по профилю'}
-                              content={'Очень полезная информация'}/>
-
-    return <CustomerLayoutContainer header={renderHeader}
-                                    body={renderBody}/>
+    console.debug('Profile', 'RENDER')
+    return <CustomerLayoutContainer header={renderHeader}>
+        <Panel title={'Информация по профилю'}
+               content={'Очень полезная информация'}/>
+    </CustomerLayoutContainer>
 }
 
 export default Profile

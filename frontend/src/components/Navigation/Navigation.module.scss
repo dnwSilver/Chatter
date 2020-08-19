@@ -8,13 +8,6 @@
 
 .link {
   padding: $size-padding-medium;
-  border-bottom: $size-border-small $style-border $color-border;
-
-  &:hover {
-    color: $color-text-accent;
-    background-color: $color-background-accent;
-    cursor: pointer;
-  }
 }
 
 .navLink {
@@ -24,8 +17,9 @@
 
 .area {
   color: $color-text-primary;
-  border-bottom: $size-border-small $style-border $color-border;
   padding: $size-padding-medium;
+  display: flex;
+  justify-content: space-between;
 }
 
 .active > div {

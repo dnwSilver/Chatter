@@ -1,10 +1,10 @@
 import {GlobalState} from '../../stores/GlobalStore'
-import Sidebar, {PropsType} from './Sidebar'
+import Navigation, {PropsType} from './Navigation'
 import {connect} from 'react-redux'
-import {actualAreas} from './SidebarSelectors'
+import {actualAreas} from './NavigationSelectors'
 
 const mapStateToProps = (state: GlobalState): PropsType => ({
     areas: actualAreas(state)
 })
 
-export default connect<PropsType, {}, {}, GlobalState>(mapStateToProps)(Sidebar)
+export default connect<PropsType, {}, {}, GlobalState>(mapStateToProps)(Navigation)

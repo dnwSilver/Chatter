@@ -1,29 +1,27 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
-import styles from './Sidebar.module.scss'
+import styles from './Navigation.module.scss'
 import {Activity, Area} from '../../infrastructure/Types'
 
 export type PropsType = {
     areas: Area[]
 }
 
-const Sidebar = (props: PropsType) => {
-    console.debug('Sidebar', 'RENDER')
-
+const Navigation = (props: PropsType) => {
     return <nav className={styles.navigation}>
         {
-            props.areas.map((group: Area, groupIndex: number) =>
-                <div key={groupIndex}>
-                    <div className={styles.group}
-                         children={group.name}/>
+            props.areas.map((area: Area, groupIndex: number) =>
+                <div key={groupIndex}
+                     className={styles.area}>
                     {
-                        group.pages.map((activity: Activity, activityIndex: number) =>
+                        area.pages.map((activity: Activity, activityIndex: number) =>
                             <NavLink key={activityIndex}
                                      to={activity.url}
                                      className={styles.navLink}
                                      activeClassName={styles.active}>
-                                <div className={styles.link}
-                                     children={activity.name}/>
+                                <div className={styles.link}>
+                                    <img src={'~/' + activity.icon}/>
+                                </div>
                             </NavLink>
                         )
                     }
@@ -33,4 +31,4 @@ const Sidebar = (props: PropsType) => {
     </nav>
 }
 
-export default Sidebar
+export default Navigation

@@ -5,11 +5,15 @@
   background-color: $color-background-primary;
   font-weight: $weight-font-medium;
   color: $color-text-secondary;
-  display: flex;
   min-height: 100vh;
 }
 
 .content {
   padding: $size-padding-medium;
+}
+
+.navigation {
   width: 100%;
+  position: absolute;
+  bottom: 0;
 }

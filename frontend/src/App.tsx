@@ -3,9 +3,8 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import Profile from './components/Profile/Profile'
 import activities from './infrastructure/activities'
 import DialogsContainer from './components/Dialogs/DialogsContainer'
-import globalStore from './stores/redux-store'
+import globalStore from './stores/GlobalStore'
 import {connect, Provider} from 'react-redux'
-import {compose} from 'redux'
 import PlatformProvider from './contexts/platforms/PlatformContext'
 
 class App extends Component<DispatchPropsType> {
@@ -43,16 +42,12 @@ type DispatchPropsType = {
 
 type PropsType = DispatchPropsType
 
-
-const AppContainer = compose<React.ComponentType>(
-    connect())(App)
-
 const PatternApp: React.FC<PropsType> = () => {
     console.debug('PatternApp', 'RENDER')
     return <BrowserRouter>
         <Provider store={globalStore}>
             <PlatformProvider>
-                <AppContainer/>
+                <App/>
             </PlatformProvider>
         </Provider>
     </BrowserRouter>

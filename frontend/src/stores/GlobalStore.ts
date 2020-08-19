@@ -1,13 +1,13 @@
 import {combineReducers, createStore} from 'redux'
 import profileReducer from '../components/Profile/ProfileReducer'
 import dialogsReducer from '../components/Dialogs/DialogsReducer'
-import sidebarReducer from '../components/Sidebar/SidebarReducer'
 import platformReducer from '../contexts/platforms/PlatformReducer'
+import navigationReducer from './NavigationReducer'
 
 const rootReducer = combineReducers({
     profile: profileReducer,
     dialogs: dialogsReducer,
-    sidebar: sidebarReducer,
+    navigation: navigationReducer,
     platform: platformReducer
 })
 

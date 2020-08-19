@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './CustomerLayoutMobile.module.scss'
+import Navigation from '../../Navigation/NavigationContainer'
 
 type PropsType = {
     header: React.ReactNode
@@ -15,6 +16,9 @@ const CustomerLayoutMobile = (props: PropsType) => {
             <div>
                 {props.body}
             </div>
+        </div>
+        <div className={styles.navigation}>
+            <Navigation/>
         </div>
     </div>
 }
