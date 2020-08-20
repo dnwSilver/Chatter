@@ -10,7 +10,7 @@ export type Activity = {
 
 export type Area = {
     name: string
-    pages: Activity[]
+    activities: Activity[]
 }
 
 export type InferActionsTypes<T> = T extends { [keys: string]: (...args: any[]) => infer U } ? U : never

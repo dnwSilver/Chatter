@@ -4,7 +4,7 @@ import {Area} from './Types'
 const areas: Area[] = [
     {
         name: 'Публичная',
-        pages: [
+        activities: [
             activities.dialogs,
             activities.profile,
             activities.signIn

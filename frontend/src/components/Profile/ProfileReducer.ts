@@ -7,7 +7,7 @@ const initialProfileState: StatePropsType = {
     sidebarItems: [
         {
             name: 'Меню',
-            pages: [
+            activities: [
                 activities.profile,
                 activities.dialogs
             ]

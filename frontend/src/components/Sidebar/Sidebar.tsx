@@ -12,12 +12,12 @@ const Sidebar = (props: PropsType) => {
 
     return <nav className={styles.navigation}>
         {
-            props.areas.map((group: Area, groupIndex: number) =>
-                <div key={groupIndex}>
-                    <div className={styles.group}
-                         children={group.name}/>
+            props.areas.map((area: Area, areaIndex: number) =>
+                <div key={areaIndex}>
+                    <div className={styles.area}
+                         children={area.name}/>
                     {
-                        group.pages.map((activity: Activity, activityIndex: number) =>
+                        area.activities.map((activity: Activity, activityIndex: number) =>
                             <NavLink key={activityIndex}
                                      to={activity.url}
                                      className={styles.navLink}
