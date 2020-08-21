@@ -5,7 +5,7 @@ import activities from './infrastructure/activities/activities'
 import DialogsContainer from './components/Dialogs/DialogsContainer'
 import globalStore from './stores/globalStore'
 import {Provider} from 'react-redux'
-import PlatformProvider from './contexts/platforms/PlatformContext'
+import PlatformProvider from './contexts/platforms/PlatformProvider'
 
 class App extends Component<DispatchPropsType> {
     catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {

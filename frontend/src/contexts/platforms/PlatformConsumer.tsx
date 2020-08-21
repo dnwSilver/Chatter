@@ -1,5 +1,5 @@
 import React, {ReactNode} from 'react'
-import {PlatformContext} from './PlatformContext'
+import PlatformContext from './PlatformContext'
 import Platform from './Platform'
 
 type PropsType = {
