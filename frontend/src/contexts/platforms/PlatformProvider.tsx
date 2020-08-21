@@ -9,8 +9,6 @@ class PlatformProvider extends React.Component<PropsType, StateType> {
     constructor(props: PropsType) {
         super(props)
         this.state = {platform: Platform.Unknown}
-        if (this.state.platform === Platform.Unknown)
-            this.handleWindowResize()
     }
 
     handleWindowResize = () => {
@@ -22,6 +20,8 @@ class PlatformProvider extends React.Component<PropsType, StateType> {
 
     componentDidMount() {
         window.addEventListener('resize', this.handleWindowResize)
+        if (this.state.platform === Platform.Unknown)
+            this.handleWindowResize()
     }
 
     componentWillUnmount(): void {
