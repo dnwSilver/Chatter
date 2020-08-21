@@ -1,10 +1,8 @@
 import React from 'react'
 import Header from '../Header/Header'
 import Panel from '../Panel/Panel'
-import activities from '../../infrastructure/activities'
+import activities from '../../infrastructure/activities/activities'
 import CustomerLayoutContainer from '../CustomerLayout/CustomerLayoutContainer'
-import Icon from '../Icon/Icon'
-import {IconType} from '../../infrastructure/IconTypes'
 
 const Profile = () => {
     const renderHeader = <Header title={activities.profile.name}/>
@@ -13,8 +11,6 @@ const Profile = () => {
     return <CustomerLayoutContainer header={renderHeader}>
         <Panel title={'Информация по профилю'}
                content={'Очень полезная информация'}/>
-
-        <Icon type={IconType.Profile} />
     </CustomerLayoutContainer>
 }
 

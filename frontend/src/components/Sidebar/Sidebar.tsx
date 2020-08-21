@@ -1,7 +1,9 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import styles from './Sidebar.module.scss'
-import {Activity, Area} from '../../infrastructure/Types'
+import {Activity} from '../../infrastructure/activities/activities'
+import {Area} from '../../infrastructure/activities/areas'
+import Icon from '../Icon/Icon'
 
 export type PropsType = {
     areas: Area[]
@@ -18,12 +20,13 @@ const Sidebar = (props: PropsType) => {
                          children={area.name}/>
                     {
                         area.activities.map((activity: Activity, activityIndex: number) =>
-                            <NavLink key={activityIndex}
-                                     to={activity.url}
-                                     className={styles.navLink}
-                                     activeClassName={styles.active}>
-                                <div className={styles.link}
-                                     children={activity.name}/>
+                            <NavLink className={styles.navLink}
+                                     activeClassName={styles.active}
+                                     key={activityIndex}
+                                     to={activity.url}>
+                                <Icon icon={activity.icon}/>
+                                <span className={styles.text}
+                                      children={activity.name}/>
                             </NavLink>
                         )
                     }

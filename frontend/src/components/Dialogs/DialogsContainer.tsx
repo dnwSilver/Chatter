@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {GlobalState} from '../../stores/GlobalStore'
+import {GlobalState} from '../../stores/globalStore'
 import {actions} from './DialogsActions'
 import {dialogMessages} from './DialogsSelectors'
 import Dialogs from './Dialogs'

@@ -1,9 +1,9 @@
-@import "../../infrastructure/dimension.module";
-@import "../../infrastructure/color.module";
+@import "../../infrastructure/dimensions/dimension.module";
+@import "../../infrastructure/colors/color.module";
 
 .panel {
   background-color: $color-background-secondary;
-  border-radius: $size-border-radius;
+  border-radius: $size-border-radius-medium;
 }
 
 .title {

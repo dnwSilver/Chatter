@@ -1,5 +1,5 @@
-@import "../../../infrastructure/dimension.module";
-@import "../../../infrastructure/color.module";
+@import "../../../infrastructure/dimensions/dimension.module";
+@import "../../../infrastructure/colors/color.module";
 
 .layout {
   background-color: $color-background-primary;

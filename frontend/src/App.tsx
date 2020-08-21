@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import Profile from './components/Profile/Profile'
-import activities from './infrastructure/activities'
+import activities from './infrastructure/activities/activities'
 import DialogsContainer from './components/Dialogs/DialogsContainer'
-import globalStore from './stores/GlobalStore'
-import {connect, Provider} from 'react-redux'
+import globalStore from './stores/globalStore'
+import {Provider} from 'react-redux'
 import PlatformProvider from './contexts/platforms/PlatformContext'
 
 class App extends Component<DispatchPropsType> {

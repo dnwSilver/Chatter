@@ -1,7 +1,7 @@
 import React, {PropsWithChildren} from 'react'
 import Platform from './Platform'
 import {connect} from 'react-redux'
-import {GlobalState} from '../../stores/GlobalStore'
+import {GlobalState} from '../../stores/globalStore'
 import {currentPlatform} from './PlatformSelectors'
 import {actions} from './PlatformActions'
 
@@ -33,7 +33,6 @@ class PlatformProvider extends React.Component<PropsType> {
     }
 
     componentDidMount() {
-
         window.addEventListener('resize', this.handleWindowResize)
     }
 

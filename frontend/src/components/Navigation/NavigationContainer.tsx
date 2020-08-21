@@ -1,4 +1,4 @@
-import {GlobalState} from '../../stores/GlobalStore'
+import {GlobalState} from '../../stores/globalStore'
 import Navigation, {PropsType} from './Navigation'
 import {connect} from 'react-redux'
 import {actualAreas} from './NavigationSelectors'

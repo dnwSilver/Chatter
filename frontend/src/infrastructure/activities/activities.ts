@@ -1,22 +1,27 @@
-import {Activity} from './Types'
-import {IconType} from './IconTypes'
+import icon, {IconType} from '../../resources/icon'
+
+export type Activity = {
+    name: string
+    url: string
+    icon: IconType
+}
 
 const dialogActivity: Activity = {
     name: 'Диалоги',
     url: '/Dialogs',
-    icon: IconType.Dialogs
+    icon: icon.chat
 }
 
 const profileActivity: Activity = {
     name: 'Профиль',
     url: '/Profile',
-    icon: IconType.Profile
+    icon: icon.profile
 }
 
 const signInActivity: Activity = {
     name: 'Вход',
     url: '/SignIn',
-    icon: IconType.SignIn
+    icon: icon.sign
 }
 
 const activities = {

@@ -1,6 +1,6 @@
 import {AnyAction} from 'redux'
-import activities from '../../infrastructure/activities'
-import {Area} from '../../infrastructure/Types'
+import activities from '../../infrastructure/activities/activities'
+import {Area} from '../../infrastructure/activities/areas'
 
 const initialProfileState: StatePropsType = {
     newPostText: undefined,

@@ -1,5 +1,5 @@
-@import "../../infrastructure/dimension.module";
-@import "../../infrastructure/color.module";
+@import "../../infrastructure/dimensions/dimension.module";
+@import "../../infrastructure/colors/color.module";
 
 .navigation {
   background-color: $color-background-secondary;
@@ -13,6 +13,15 @@
 .navLink {
   color: $color-text-secondary;
   text-decoration: none;
+
+  & > svg {
+    width: $size-icon-extraLarge;
+    height: $size-icon-extraLarge;
+
+    & > path {
+      fill: $color-text-secondary;
+    }
+  }
 }
 
 .area {
@@ -22,7 +31,6 @@
   justify-content: space-between;
 }
 
-.active > div {
-  background-color: $color-background-accent;
-  color: $color-text-accent;
+.active > svg > path {
+  fill: $color-text-accent;
 }

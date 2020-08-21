@@ -1,34 +1,54 @@
-@import "../../infrastructure/dimension.module";
-@import "../../infrastructure/color.module";
+@import "../../infrastructure/dimensions/dimension.module";
+@import "../../infrastructure/colors/color.module";
 
 .navigation {
   background-color: $color-background-secondary;
   font-size: $size-text-medium;
+  line-height: 1;
 }
 
-.link {
+.navLink {
+  color: $color-text-secondary;
   padding: $size-padding-medium;
+  text-decoration: none;
+  display: flex;
   border-bottom: $size-border-small $style-border $color-border;
+
+  & > svg {
+    width: $size-icon-medium;
+    height: $size-icon-medium;
+
+    & > path {
+      fill: $color-text-secondary;
+    }
+  }
 
   &:hover {
     color: $color-text-accent;
     background-color: $color-background-accent;
     cursor: pointer;
-  }
-}
 
-.navLink {
-  color: $color-text-secondary;
-  text-decoration: none;
+    & svg > path {
+      fill: $color-accent;
+    }
+  }
 }
 
 .area {
   color: $color-text-primary;
   border-bottom: $size-border-small $style-border $color-border;
-  padding: $size-padding-medium;
+  padding: $size-padding-medium 2*$size-padding-medium + $size-icon-medium;
 }
 
-.active > div {
+.active {
   background-color: $color-background-accent;
   color: $color-text-accent;
+
+  & > svg > path {
+    fill: $color-text-accent;
+  }
+}
+
+.text {
+  padding-left: $size-padding-medium;
 }

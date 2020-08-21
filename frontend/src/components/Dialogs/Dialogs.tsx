@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '../Header/Header'
-import activities from '../../infrastructure/activities'
+import activities from '../../infrastructure/activities/activities'
 import Message from '../Message/Message'
 import CustomerLayoutContainer from '../CustomerLayout/CustomerLayoutContainer'
 

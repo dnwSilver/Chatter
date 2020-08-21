@@ -1,5 +1,5 @@
 import {Action} from 'redux'
-import areas from '../infrastructure/areas'
+import areas from '../infrastructure/activities/areas'
 
 const initialState = {
     areas: areas
