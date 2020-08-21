@@ -1,21 +1,19 @@
 import {connect} from 'react-redux'
-import {GlobalState} from '../../stores/globalStore'
-import {actions} from './DialogsActions'
-import {dialogMessages} from './DialogsSelectors'
+import {GlobalStore} from '../../redux/globalStore'
 import Dialogs from './Dialogs'
+import {actions} from '../../redux/actions/dialogsActions'
+import {dialogMessages} from '../../redux/selectors/dialogsSelectors'
 
-type OwnPropsType = {}
-
-type StatePropsType = {
+type StateProps = {
     messages: string[]
 }
 
-type DispatchPropsType = {
+type DispatchProps = {
     onMessageSend: (message: string) => void
 }
 
-const mapStateToProps = (state: GlobalState): StatePropsType => ({
+const mapStateToProps = (state: GlobalStore): StateProps => ({
     messages: dialogMessages(state)
 })
 
-export default connect<StatePropsType, DispatchPropsType, OwnPropsType, GlobalState>(mapStateToProps, {...actions})(Dialogs)
+export default connect<StateProps, DispatchProps, {}, GlobalStore>(mapStateToProps, {...actions})(Dialogs)

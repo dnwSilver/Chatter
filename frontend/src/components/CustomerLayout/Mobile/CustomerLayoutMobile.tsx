@@ -1,26 +1,26 @@
-import React from 'react'
+import React, {FC} from 'react'
 import styles from './CustomerLayoutMobile.module.scss'
 import Navigation from '../../Navigation/NavigationContainer'
 
-type PropsType = {
-    header: React.ReactNode
-    body: React.ReactNode
-}
-
-const CustomerLayoutMobile = (props: PropsType) => {
+const CustomerLayoutMobile: FC<Props> = ({header, body}): JSX.Element => {
     return <div className={styles.layout}>
         <div className={styles.content}>
             <div>
-                {props.header}
+                {header}
             </div>
             <div>
-                {props.body}
+                {body}
             </div>
         </div>
         <div className={styles.navigation}>
             <Navigation/>
         </div>
     </div>
+}
+
+type Props = {
+    header: React.ReactNode
+    body: React.ReactNode
 }
 
 export default CustomerLayoutMobile

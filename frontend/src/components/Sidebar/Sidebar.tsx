@@ -1,20 +1,14 @@
-import React from 'react'
+import React, {FC} from 'react'
 import {NavLink} from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 import {Activity} from '../../infrastructure/activities/activities'
 import {Area} from '../../infrastructure/activities/areas'
 import Icon from '../Icon/Icon'
 
-export type PropsType = {
-    areas: Area[]
-}
-
-const Sidebar = (props: PropsType) => {
-    console.debug('Sidebar', 'RENDER')
-
+const Sidebar: FC<Props> = ({areas}): JSX.Element => {
     return <nav className={styles.navigation}>
         {
-            props.areas.map((area: Area, areaIndex: number) =>
+            areas.map((area: Area, areaIndex: number) =>
                 <div key={areaIndex}>
                     <div className={styles.area}
                          children={area.name}/>
@@ -34,6 +28,10 @@ const Sidebar = (props: PropsType) => {
             )
         }
     </nav>
+}
+
+type Props = {
+    areas: Area[]
 }
 
 export default Sidebar

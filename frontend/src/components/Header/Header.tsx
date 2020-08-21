@@ -1,14 +1,13 @@
-import React from 'react'
+import React, {FC} from 'react'
 import styles from './Header.module.scss'
 
+const Header: FC<PropsType> = ({title}) => {
+    return <div className={styles.header}>
+        {title}
+    </div>
+}
 export type PropsType = {
     title: string
-}
-
-const Header = (props: PropsType) => {
-    return <div className={styles.header}>
-        {props.title}
-    </div>
 }
 
 export default Header

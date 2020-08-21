@@ -4,6 +4,7 @@ export type Area = {
     name: string
     activities: Activity[]
 }
+
 const areas: Area[] = [
     {
         name: 'Публичная',

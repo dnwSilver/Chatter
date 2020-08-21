@@ -28,7 +28,7 @@
   color: $color-text-primary;
   padding: $size-padding-medium;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .active > svg > path {

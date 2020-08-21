@@ -24,10 +24,8 @@ const signInActivity: Activity = {
     icon: icon.sign
 }
 
-const activities = {
+export default {
     dialogs: dialogActivity,
     profile: profileActivity,
     signIn: signInActivity
 }
-
-export default activities

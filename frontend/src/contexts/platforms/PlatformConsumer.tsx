@@ -1,13 +1,13 @@
-import React, {ReactNode} from 'react'
+import React, {FC, ReactNode} from 'react'
 import PlatformContext from './PlatformContext'
 import Platform from './Platform'
 
-type PropsType = {
+type Props = {
     desktopVersion: ReactNode
     mobileVersion: ReactNode
 }
 
-const PlatformConsumer: React.FC<PropsType> = (props: PropsType) => {
+const PlatformConsumer: FC<Props> = (props: Props) => {
     return <PlatformContext.Consumer>
         {
             value => {

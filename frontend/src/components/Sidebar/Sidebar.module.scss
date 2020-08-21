@@ -37,7 +37,7 @@
 .area {
   color: $color-text-primary;
   border-bottom: $size-border-small $style-border $color-border;
-  padding: $size-padding-medium 2*$size-padding-medium + $size-icon-medium;
+  padding: $size-padding-medium 2 * $size-padding-medium + $size-icon-medium;
 }
 
 .active {

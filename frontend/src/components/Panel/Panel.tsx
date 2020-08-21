@@ -1,20 +1,20 @@
-import React, {ReactNode} from 'react'
+import React, {FC, ReactNode} from 'react'
 import styles from './Panel.module.scss'
 
-type PropsType = {
-    title: string
-    content: ReactNode
-}
-
-const Panel = (props: PropsType) => {
+const Panel: FC<Props> = ({title, content}) => {
     return <div className={styles.panel}>
         <div className={styles.title}>
-            {props.title}
+            {title}
         </div>
         <div className={styles.content}>
-            {props.content}
+            {content}
         </div>
     </div>
+}
+
+type Props = {
+    title: string
+    content: ReactNode
 }
 
 export default Panel

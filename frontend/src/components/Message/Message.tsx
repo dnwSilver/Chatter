@@ -1,13 +1,13 @@
-import React from 'react'
+import React, {FC} from 'react'
 
-type PropsType = {
-    text: string
+const Message: FC<Props> = ({text}): JSX.Element => {
+    return <div>
+        {text}
+    </div>
 }
 
-const Message = (props: PropsType) => {
-    return <div>
-        {props.text}
-    </div>
+type Props = {
+    text: string
 }
 
 export default Message

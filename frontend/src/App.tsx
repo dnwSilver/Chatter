@@ -3,7 +3,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import Profile from './components/Profile/Profile'
 import activities from './infrastructure/activities/activities'
 import DialogsContainer from './components/Dialogs/DialogsContainer'
-import globalStore from './stores/globalStore'
+import globalStore from './redux/globalStore'
 import {Provider} from 'react-redux'
 import PlatformProvider from './contexts/platforms/PlatformProvider'
 

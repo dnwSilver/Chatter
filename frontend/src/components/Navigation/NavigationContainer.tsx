@@ -1,10 +1,10 @@
-import {GlobalState} from '../../stores/globalStore'
-import Navigation, {PropsType} from './Navigation'
+import {GlobalStore} from '../../redux/globalStore'
+import Navigation, {Props} from './Navigation'
 import {connect} from 'react-redux'
-import {actualAreas} from './NavigationSelectors'
+import {actualAreas} from '../../redux/selectors/navigationSelectors'
 
-const mapStateToProps = (state: GlobalState): PropsType => ({
+const mapStateToProps = (state: GlobalStore): Props => ({
     areas: actualAreas(state)
 })
 
-export default connect<PropsType, {}, {}, GlobalState>(mapStateToProps)(Navigation)
+export default connect<Props, {}, {}, GlobalStore>(mapStateToProps)(Navigation)
