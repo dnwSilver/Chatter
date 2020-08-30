@@ -1,11 +1,11 @@
-import React, {FC} from 'react'
+import React from 'react'
 import {NavLink} from 'react-router-dom'
 import styles from './Sidebar.module.scss'
 import {Activity} from '../../infrastructure/activities/activities'
 import {Area} from '../../infrastructure/activities/areas'
 import Icon from '../Icon/Icon'
 
-const Sidebar: FC<Props> = ({areas}): JSX.Element => {
+const Sidebar = ({areas}:Props) => {
     return <nav className={styles.navigation}>
         {
             areas.map((area: Area, areaIndex: number) =>

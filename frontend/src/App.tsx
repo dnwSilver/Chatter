@@ -7,7 +7,7 @@ import globalStore from './redux/globalStore'
 import {Provider} from 'react-redux'
 import PlatformProvider from './contexts/platforms/PlatformProvider'
 
-class App extends Component<DispatchPropsType> {
+class App extends Component<DispatchProps> {
     catchAllUnhandledErrors = (e: PromiseRejectionEvent) => {
         alert('Some error occured')
     }
@@ -36,13 +36,13 @@ class App extends Component<DispatchPropsType> {
     }
 }
 
-type DispatchPropsType = {
+type DispatchProps = {
     // initializeApp: () => void
 }
 
-type PropsType = DispatchPropsType
+type Props = DispatchProps
 
-const PatternApp: React.FC<PropsType> = () => {
+const PatternApp: React.FC<Props> = () => {
     console.debug('PatternApp', 'RENDER')
     return <BrowserRouter>
         <Provider store={globalStore}>

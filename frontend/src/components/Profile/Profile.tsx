@@ -4,7 +4,7 @@ import Panel from '../Panel/Panel'
 import activities from '../../infrastructure/activities/activities'
 import CustomerLayoutContainer from '../CustomerLayout/CustomerLayoutContainer'
 
-const Profile: FC = (): JSX.Element => {
+const Profile: FC = () => {
     const renderHeader = <Header title={activities.profile.name}/>
     return <CustomerLayoutContainer header={renderHeader}>
         <Panel title={'Информация по профилю'}

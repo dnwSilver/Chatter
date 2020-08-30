@@ -1,8 +1,8 @@
-import React, {FC} from 'react'
+import React, {ReactNode} from 'react'
 import styles from './CustomerLayoutMobile.module.scss'
 import Navigation from '../../Navigation/NavigationContainer'
 
-const CustomerLayoutMobile: FC<Props> = ({header, body}): JSX.Element => {
+const CustomerLayoutMobile = ({header, body}: Props) => {
     return <div className={styles.layout}>
         <div className={styles.content}>
             <div>
@@ -19,8 +19,8 @@ const CustomerLayoutMobile: FC<Props> = ({header, body}): JSX.Element => {
 }
 
 type Props = {
-    header: React.ReactNode
-    body: React.ReactNode
+    header: ReactNode
+    body: ReactNode
 }
 
 export default CustomerLayoutMobile

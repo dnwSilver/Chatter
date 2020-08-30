@@ -1,12 +1,12 @@
-import React, {FC} from 'react'
+import React from 'react'
 import styles from './Header.module.scss'
 
-const Header: FC<PropsType> = ({title}) => {
+const Header = ({title}:Props) => {
     return <div className={styles.header}>
         {title}
     </div>
 }
-export type PropsType = {
+export type Props = {
     title: string
 }
 

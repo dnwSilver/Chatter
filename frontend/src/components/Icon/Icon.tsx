@@ -1,7 +1,7 @@
-import React, {FC} from 'react'
+import React from 'react'
 import {IconType} from '../../resources/icon'
 
-const Icon: FC<Props> = ({icon}): JSX.Element => {
+const Icon = ({icon}: Props) => {
     return <svg viewBox={icon.viewBox}>
         <path d={icon.d}/>
     </svg>

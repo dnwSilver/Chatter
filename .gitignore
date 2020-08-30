@@ -1,5 +1,12 @@
 /.idea/
+
 /frontend/.idea/
+/frontend/dist
 /frontend/node_modules/
+
+/backend/.idea/
+/backend/dist
+/backend/node_modules/
+
 *.lock
 *-lock.json

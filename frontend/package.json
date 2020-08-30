@@ -1,6 +1,8 @@
 {
-  "name": "pattern",
+  "name": "chatter-frontend",
   "version": "0.1.0",
+  "description": "Frontend for chatter.",
+  "author": "a.kolosov",
   "private": true,
   "scripts": {
     "start": "react-scripts start",

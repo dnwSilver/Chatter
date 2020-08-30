@@ -1,8 +1,8 @@
-import React, {FC} from 'react'
+import React, {ReactNode} from 'react'
 import styles from './CustomerLayoutDesktop.module.scss'
 import SidebarContainer from '../../Sidebar/SidebarContainer'
 
-const CustomerLayoutDesktop: FC<PropsType> = ({header, body}): JSX.Element => {
+const CustomerLayoutDesktop = ({header, body}: Props) => {
     return <div className={styles.layout}>
         <div className={styles.navigation}>
             <SidebarContainer/>
@@ -18,9 +18,9 @@ const CustomerLayoutDesktop: FC<PropsType> = ({header, body}): JSX.Element => {
     </div>
 }
 
-type PropsType = {
-    header: React.ReactNode
-    body: React.ReactNode
+type Props = {
+    header: ReactNode
+    body: ReactNode
 }
 
 export default CustomerLayoutDesktop

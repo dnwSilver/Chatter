@@ -1,6 +1,6 @@
-import React, {FC} from 'react'
+import React from 'react'
 
-const Message: FC<Props> = ({text}): JSX.Element => {
+const Message = ({text}:Props) => {
     return <div>
         {text}
     </div>

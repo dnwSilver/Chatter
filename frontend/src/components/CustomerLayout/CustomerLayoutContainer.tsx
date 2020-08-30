@@ -1,9 +1,9 @@
-import React, {FC, PropsWithChildren} from 'react'
+import React, {PropsWithChildren, ReactNode} from 'react'
 import CustomerLayoutDesktop from './Desktop/CustomerLayoutDesktop'
 import CustomerLayoutMobile from './Mobile/CustomerLayoutMobile'
 import PlatformConsumer from '../../contexts/platforms/PlatformConsumer'
 
-const CustomerLayoutContainer: FC<PropsType> = ({header, children}): JSX.Element => {
+const CustomerLayoutContainer = ({header, children}: Props) => {
     const desktopRender = <CustomerLayoutDesktop header={header}
                                                  body={children}/>
 
@@ -14,10 +14,10 @@ const CustomerLayoutContainer: FC<PropsType> = ({header, children}): JSX.Element
                              mobileVersion={mobileRender}/>
 }
 
-type OwnPropsType = {
-    header: React.ReactNode
+type OwnProps = {
+    header: ReactNode
 }
 
-type PropsType = PropsWithChildren<OwnPropsType>
+type Props = PropsWithChildren<OwnProps>
 
 export default CustomerLayoutContainer

@@ -1,11 +1,11 @@
-import React, {FC} from 'react'
+import React from 'react'
 import {NavLink} from 'react-router-dom'
 import styles from './Navigation.module.scss'
 import Icon from '../Icon/Icon'
 import {Activity} from '../../infrastructure/activities/activities'
 import {Area} from '../../infrastructure/activities/areas'
 
-const Navigation: FC<Props> = ({areas}): JSX.Element => {
+const Navigation = ({areas}:Props) => {
     return <nav className={styles.navigation}>
         {
             areas.map((area: Area, groupIndex: number) =>

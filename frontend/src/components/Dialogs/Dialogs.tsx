@@ -1,10 +1,10 @@
-import React, {FC} from 'react'
+import React from 'react'
 import Header from '../Header/Header'
 import activities from '../../infrastructure/activities/activities'
 import Message from '../Message/Message'
 import CustomerLayoutContainer from '../CustomerLayout/CustomerLayoutContainer'
 
-const Dialogs: FC<PropsType> = ({messages, onMessageSend}): JSX.Element => {
+const Dialogs = ({messages, onMessageSend} :Props) => {
     const handleMessageSend = (e: React.ChangeEvent<HTMLInputElement>): void => onMessageSend(e.target.value)
 
     return <CustomerLayoutContainer header={<Header title={activities.dialogs.name}/>}>
@@ -18,7 +18,7 @@ const Dialogs: FC<PropsType> = ({messages, onMessageSend}): JSX.Element => {
     </CustomerLayoutContainer>
 }
 
-type PropsType = {
+type Props = {
     messages: string[]
     onMessageSend: (message: string) => void
 }
