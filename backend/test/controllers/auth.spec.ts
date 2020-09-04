@@ -28,14 +28,15 @@ describe('auth controller', ()=>{
     })
     describe('when sign up', ()=>{
       const signUpDto: SignUpDto={email: 'Daeny@targaryen.com', login: 'MotherOfDragon', name: 'Daenerys', password: 'dracarys'}
-      it('response should have status created', async ()=>{
-        const passwordHash=await bcrypt.hash('dracarys', 10)
-        console.log(passwordHash)
-        const dto: SignUpDto={email: 'Daeny@targaryen.com', login: 'MotherOfDragon', name: 'Daenerys', password: passwordHash}
-        await request(app.getHttpServer())
-          .post('/auth/sign-up')
-          .send(dto)
-          .expect(HttpStatus.CREATED)
+      describe('success', ()=>{
+        it('response should have status created', async ()=>{
+          const passwordHash=await bcrypt.hash('dracarys', 10)
+          const dto: SignUpDto={email: 'Daeny@targaryen.com', login: 'MotherOfDragon', name: 'Daenerys', password: passwordHash}
+          await request(app.getHttpServer())
+            .post('/auth/sign-up')
+            .send(dto)
+            .expect(HttpStatus.CREATED)
+        })
       })
       it('without email response should have status bad request', async ()=>{
         const body={...signUpDto}

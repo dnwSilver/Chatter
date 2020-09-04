@@ -1,21 +1,20 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common'
-import {InjectRepository}                      from '@nestjs/typeorm'
-import {Repository}                            from 'typeorm'
-import {FilesService}                          from '../files/files.service'
-import CreateUserDto                           from './dto/createUser.dto'
-import User                                    from './user.entity'
+import {InjectModel}                           from '@nestjs/mongoose'
+import {Model}                                 from 'mongoose'
+import UserCreateDto                           from './user.create.dto'
+import {User}                                  from './user.schema'
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-    private readonly filesService: FilesService
+    @InjectModel(User.name)
+    private readonly userModel: Model<User>
+    // private readonly filesService: FilesService
   ) {
   }
 
-  async getByEmail(email: string) {
-    const user=await this.usersRepository.findOne({email})
+  async getByEmail(email: string): Promise<User> {
+    const user=await this.userModel.findOne({email: email}).exec()
     if(user){
       return user
     }
@@ -23,46 +22,46 @@ export class UsersService {
   }
 
   async getById(id: number) {
-    const user=await this.usersRepository.findOne({id})
+    const user=await this.userModel.findOne({id: id}).exec()
     if(user){
       return user
     }
     throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND)
   }
 
-  async create(userData: CreateUserDto) {
-    const newUser=await this.usersRepository.create(userData)
-    await this.usersRepository.save(newUser)
-    return newUser
+  async create(userCreateDto: UserCreateDto): Promise<User> {
+    const createdUser=new this.userModel(userCreateDto)
+    await createdUser.save()
+    return createdUser
   }
 
-  async addAvatar(userId: number, imageBuffer: Buffer, filename: string) {
-    const user=await this.getById(userId)
-    if(user.avatar){
-      await this.usersRepository.update(userId, {
-        ...user,
-        avatar: null
-      })
-      await this.filesService.deleteFile(user.avatar.id)
-    }
-    const avatar=await this.filesService.uploadFile(imageBuffer, filename)
-    await this.usersRepository.update(userId, {
-      ...user,
-      avatar
-    })
-    return avatar
-  }
-
-  async deleteAvatar(userId: number) {
-    const user=await this.getById(userId)
-    const fileId=user.avatar?.id
-    if(fileId){
-      await this.usersRepository.update(userId, {
-        ...user,
-        avatar: null
-      })
-      await this.filesService.deleteFile(fileId)
-    }
-  }
+  // async addAvatar(userId: number, imageBuffer: Buffer, filename: string) {
+  //   const user=await this.getById(userId)
+  //   if(user.avatar){
+  //     await this.usersRepository.update(userId, {
+  //       ...user,
+  //       avatar: null
+  //     })
+  //     await this.filesService.deleteFile(user.avatar.id)
+  //   }
+  //   const avatar=await this.filesService.uploadFile(imageBuffer, filename)
+  //   await this.usersRepository.update(userId, {
+  //     ...user,
+  //     avatar
+  //   })
+  //   return avatar
+  // }
+  //
+  // async deleteAvatar(userId: number) {
+  //   const user=await this.getById(userId)
+  //   const fileId=user.avatar?.id
+  //   if(fileId){
+  //     await this.usersRepository.update(userId, {
+  //       ...user,
+  //       avatar: null
+  //     })
+  //     await this.filesService.deleteFile(fileId)
+  //   }
+  // }
 
 }

@@ -27,8 +27,8 @@ export class AuthService {
       delete createdUser.password
       return createdUser
     } catch(error) {
-      if(error?.code===12){
-        throw new HttpException('User with that email already exists', HttpStatus.BAD_REQUEST)
+      if(error?.code===11000){
+        throw new HttpException('User with ${error.keyValue} already exists', HttpStatus.BAD_REQUEST)
       }
       throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR)
     }

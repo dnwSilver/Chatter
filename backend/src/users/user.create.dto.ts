@@ -1,8 +1,8 @@
-export class CreateUserDto {
+class UserCreateDto {
   name: string
   email: string
   login: string
   password: string
 }
 
-export default CreateUserDto
+export default UserCreateDto

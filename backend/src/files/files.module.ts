@@ -1,12 +1,9 @@
-import {Module}        from '@nestjs/common'
-import {ConfigModule}  from '@nestjs/config'
-import {TypeOrmModule} from '@nestjs/typeorm'
-import File            from './file.entity'
-import {FilesService}  from './files.service'
+import {Module}       from '@nestjs/common'
+import {ConfigModule} from '@nestjs/config'
+import {FilesService} from './files.service'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([File]),
     ConfigModule
   ],
   providers: [FilesService],
