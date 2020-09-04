@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="frontend_start" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/frontend/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="start" />
+    </scripts>
+    <node-interpreter value="project" />
+    <envs>
+      <env name="CHATTER_HOST" value="developer_workstation" />
+      <env name="CHATTER_BACKEND_ENDPOINT" value="http://0.0.0.0:49001" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>

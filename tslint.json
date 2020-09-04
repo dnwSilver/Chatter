@@ -9,6 +9,9 @@
       "single",
       "jsx-double"
     ],
-    "no-empty-interface": true
+    "space-before-function-paren": [false, "always"],
+    "no-empty-interface": true,
+    "whitespace": [false, "check-module"],
+    "indent": [true, "spaces", 2]
   }
 }

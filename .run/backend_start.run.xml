@@ -1,0 +1,18 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="backend_start" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/backend/package.json" />
+    <command value="start" />
+    <node-interpreter value="$USER_HOME$/.nvm/versions/node/v12.18.3/bin/node" />
+    <package-manager value="yarn" />
+    <envs pass-parent-envs="false">
+      <env name="CHATTER_ENV" value="development" />
+      <env name="CHATTER_MONGO_HOST" value="localhost" />
+      <env name="CHATTER_MONGO_PORT" value="27017" />
+      <env name="CHATTER_MONGO_DB" value="chatter" />
+      <env name="CHATTER_BACKEND_PORT" value="49001" />
+      <env name="CHATTER_JWT_SECRET" value="developer_secret" />
+      <env name="CHATTER_JWT_EXPIRATION_TIME" value="60" />
+    </envs>
+    <method v="2" />
+  </configuration>
+</component>

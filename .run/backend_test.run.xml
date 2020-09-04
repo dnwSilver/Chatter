@@ -1,0 +1,20 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="backend_test" type="JavaScriptTestRunnerJest">
+    <config-file value="$PROJECT_DIR$/backend/package.json" />
+    <node-interpreter value="$USER_HOME$/.nvm/versions/node/v12.18.3/bin/node" />
+    <node-options value="" />
+    <jest-package value="$PROJECT_DIR$/backend/node_modules/jest" />
+    <working-dir value="$PROJECT_DIR$/backend" />
+    <envs>
+      <env name="CHATTER_ENV" value="module_test" />
+      <env name="CHATTER_MONGO_HOST" value="localhost" />
+      <env name="CHATTER_MONGO_PORT" value="27017" />
+      <env name="CHATTER_MONGO_DB" value="chatter" />
+      <env name="CHATTER_BACKEND_PORT" value="49001" />
+      <env name="CHATTER_JWT_SECRET" value="developer_secret" />
+      <env name="CHATTER_JWT_EXPIRATION_TIME" value="60" />
+    </envs>
+    <scope-kind value="ALL" />
+    <method v="2" />
+  </configuration>
+</component>
