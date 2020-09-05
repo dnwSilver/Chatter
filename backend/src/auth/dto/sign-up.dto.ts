@@ -21,5 +21,3 @@ export class SignUpDto {
   @Length(60, 60)
   password: string
 }
-
-export default SignUpDto

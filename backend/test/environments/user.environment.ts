@@ -6,11 +6,11 @@ class UserEnvironment {
 
   private userCount=0
 
-  public async SetUp() {
-    this.CurrentUser=this.AddUser()
+  public async setup() {
+    this.CurrentUser=this.addUser()
   }
 
-  public AddUser(
+  public addUser(
     email: string=undefined,
     login: string=undefined,
     name: string=undefined,
@@ -28,4 +28,4 @@ class UserEnvironment {
   }
 }
 
-export default new UserEnvironment
+export default new UserEnvironment()

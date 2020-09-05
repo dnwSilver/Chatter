@@ -3,7 +3,7 @@ import {AuthService}                                         from './auth.servic
 import {SignUpDto}                                           from './dto/sign-up.dto'
 import {JwtAuthGuard}                                        from './guards/jwt-auth.guard'
 import {LocalAuthGuard}                                      from './guards/local-auth.guard'
-import RequestWithUser                                       from './interfaces/requestWithUser.interface'
+import {RequestWithUser}                                     from './interfaces/requestWithUser.interface'
 
 @Controller('auth')
 export class AuthController {

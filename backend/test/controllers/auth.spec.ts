@@ -1,15 +1,21 @@
 import {HttpStatus, INestApplication} from '@nestjs/common'
 import * as bcrypt                    from 'bcrypt'
 import * as request                   from 'supertest'
-import SignUpDto                      from '../../src/auth/dto/sign-up.dto'
+import {SignUpDto}                    from '../../src/auth/dto/sign-up.dto'
+import inMemoryDatabase               from '../database.inmemory'
 import AppEnvironment                 from '../environments/app.environment'
 import UserEnvironment                from '../environments/user.environment'
 
 describe('auth controller', ()=>{
   let app: INestApplication
   beforeAll(async ()=>{
-    await UserEnvironment.SetUp()
-    app= await AppEnvironment.SetUp()
+    await inMemoryDatabase.start()
+    await UserEnvironment.setup()
+    app= await AppEnvironment.setup()
+  })
+
+  afterEach(async ()=>{
+    await inMemoryDatabase.cleanup()
   })
 
   it('should be defined', ()=>{
@@ -194,6 +200,7 @@ describe('auth controller', ()=>{
   })
 
   afterAll(async ()=>{
+    await inMemoryDatabase.stop()
     await app.close()
   })
 })

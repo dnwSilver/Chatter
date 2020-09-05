@@ -1,9 +1,10 @@
-import * as Joi from '@hapi/joi'
-import {Module} from '@nestjs/common'
+import * as Joi    from '@hapi/joi'
+import {Module}    from '@nestjs/common'
+import * as config from '@nestjs/config'
 
 @Module({
   imports: [
-    require('@nestjs/config').ConfigModule.forRoot({
+    config.ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
         CHATTER_ENV: Joi.string().required(),

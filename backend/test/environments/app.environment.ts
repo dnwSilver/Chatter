@@ -3,7 +3,7 @@ import {Test}                             from '@nestjs/testing'
 import {AppModule}                        from '../../src/app.module'
 
 class AppEnvironment {
-  public async SetUp(): Promise<INestApplication> {
+  public async setup(): Promise<INestApplication> {
     const moduleRef=await Test.createTestingModule({
       imports: [AppModule],
       // providers: [
