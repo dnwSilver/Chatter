@@ -1,6 +1,7 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose'
 import {Exclude}                     from 'class-transformer'
 import {Document}                    from 'mongoose'
+import toJSON                        from '../database/toJson'
 
 @Schema()
 export class User extends Document {
@@ -18,4 +19,6 @@ export class User extends Document {
   password: string
 }
 
-export const UserSchema=SchemaFactory.createForClass(User)
+export const UserSchema=SchemaFactory.createForClass(User).method('toJSON', toJSON)
+
+

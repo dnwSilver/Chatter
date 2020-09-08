@@ -45,11 +45,13 @@ describe('auth controller', ()=>{
           .post('/auth/sign-up')
           .send(signupDto)
           .expect(HttpStatus.CREATED)
-          .expect({
-            id: '5f573708bb866090e4f4bad7',
-            email: 'Daeny@targaryen.com',
-            login: 'MotherOfDragon',
-            name: 'Daenerys'
+          .expect(response=>{
+            delete response.body.id
+            return {
+              email: 'Daeny@targaryen.com',
+              login: 'MotherOfDragon',
+              name: 'Daenerys'
+            }
           })
       })
       it('without email response should be bad request', async ()=>{
