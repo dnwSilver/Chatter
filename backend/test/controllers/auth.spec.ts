@@ -45,8 +45,14 @@ describe('auth controller', ()=>{
           .post('/auth/sign-up')
           .send(signupDto)
           .expect(HttpStatus.CREATED)
+          .expect({
+            id: '5f573708bb866090e4f4bad7',
+            email: 'Daeny@targaryen.com',
+            login: 'MotherOfDragon',
+            name: 'Daenerys'
+          })
       })
-      it('without email response should have status bad request', async ()=>{
+      it('without email response should be bad request', async ()=>{
         const body={...signupDto}
         delete body.email
         await request(app.getHttpServer())
@@ -54,7 +60,7 @@ describe('auth controller', ()=>{
           .send(body)
           .expect(HttpStatus.BAD_REQUEST)
       })
-      it('without name response should have status bad request', async ()=>{
+      it('without name response should be bad request', async ()=>{
         const body={...signupDto}
         delete body.name
         await request(app.getHttpServer())
@@ -62,7 +68,7 @@ describe('auth controller', ()=>{
           .send(body)
           .expect(HttpStatus.BAD_REQUEST)
       })
-      it('without password response should have status bad request', async ()=>{
+      it('without password response should be bad request', async ()=>{
         const body={...signupDto}
         delete body.password
         await request(app.getHttpServer())
@@ -70,7 +76,7 @@ describe('auth controller', ()=>{
           .send(body)
           .expect(HttpStatus.BAD_REQUEST)
       })
-      it('without login response should have status bad request', async ()=>{
+      it('without login response should be bad request', async ()=>{
         const body={...signupDto}
         delete body.login
         await request(app.getHttpServer())
@@ -79,7 +85,7 @@ describe('auth controller', ()=>{
           .expect(HttpStatus.BAD_REQUEST)
       })
       it.each(['wrong', 'wrong@', '@wrong.ru', 'wrong@w.w.w'])(
-        'when wrong email response should have status bad request',
+        'when wrong email response should be bad request',
         async (wrongEmail)=>{
           const body={...signupDto, email: wrongEmail}
           await request(app.getHttpServer())
@@ -87,14 +93,14 @@ describe('auth controller', ()=>{
             .send(body)
             .expect(HttpStatus.BAD_REQUEST)
         })
-      it('when short login response should have status bad request', async ()=>{
+      it('when short login response should be bad request', async ()=>{
         const body={...signupDto, login: 'Sandor2'}
         await request(app.getHttpServer())
           .post('/auth/sign-up')
           .send(body)
           .expect(HttpStatus.BAD_REQUEST)
       })
-      it('when long login response should have status bad request', async ()=>{
+      it('when long login response should be bad request', async ()=>{
         const body={
           ...signupDto,
           login: 'DaenerysStormbornUnburntQueenMeereenaQueenOfTheAndalsRhoynarAndTheFirstMenKhaleesiOfTheGreatSeaOfGrassShacklesbreakerMotherOfDragons'
@@ -104,7 +110,7 @@ describe('auth controller', ()=>{
           .send(body)
           .expect(HttpStatus.BAD_REQUEST)
       })
-      it('when short name response should have status bad request', async ()=>{
+      it('when short name response should be bad request', async ()=>{
         const body={
           ...signupDto,
           name: 'J'
@@ -114,7 +120,7 @@ describe('auth controller', ()=>{
           .send(body)
           .expect(HttpStatus.BAD_REQUEST)
       })
-      it('when long name response should have status bad request', async ()=>{
+      it('when long name response should be bad request', async ()=>{
         const body={
           ...signupDto,
           name: ''
@@ -124,7 +130,7 @@ describe('auth controller', ()=>{
           .send(body)
           .expect(HttpStatus.BAD_REQUEST)
       })
-      it('when short password response should have status bad request', async ()=>{
+      it('when short password response should be bad request', async ()=>{
         const body={
           ...signupDto,
           password: 'game'
@@ -134,7 +140,7 @@ describe('auth controller', ()=>{
           .send(body)
           .expect(HttpStatus.BAD_REQUEST)
       })
-      it('when long password response should have status bad request', async ()=>{
+      it('when long password response should be bad request', async ()=>{
         const body={
           ...signupDto,
           password: `wow${await bcrypt.hash('i', 10)}`
@@ -144,7 +150,7 @@ describe('auth controller', ()=>{
           .send(body)
           .expect(HttpStatus.BAD_REQUEST)
       })
-      it('when email already in use should have status bad request', async ()=>{
+      it('when email already in use should be bad request', async ()=>{
         UserEnvironment.addUser('Daeny@targaryen.com')
         const body={
           ...signupDto,
