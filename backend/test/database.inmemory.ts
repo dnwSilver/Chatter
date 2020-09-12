@@ -1,19 +1,23 @@
+import {Db} from 'mongodb'
+
 const {MongoClient}=require('mongodb')
 const {MongoMemoryServer}=require('mongodb-memory-server')
 
-jest.setTimeout(60000)
-
 const COLLECTIONS=[]
 
-class InMemoryDatabase {
+class InMemoryMongoServer {
+  public database: Db=null
   private connection=null
-  private db=null
   private server=new MongoMemoryServer()
 
   async start() {
     const url=await this.server.getConnectionString()
-    this.connection= await MongoClient.connect(url, {useNewUrlParser: true})
-    this.db=this.connection.db(await this.server.getDbName())
+    this.connection= await MongoClient.connect(url, {
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useNewUrlParser: true
+    })
+    this.database=this.connection.db(await this.server.getDbName())
   }
 
   stop() {
@@ -21,13 +25,13 @@ class InMemoryDatabase {
     return this.server.stop()
   }
 
-  async getConnectionString() {
+  async connectionString() {
     return await this.server.getConnectionString()
   }
 
   cleanup() {
-    return Promise.all(COLLECTIONS.map(c=>this.db.collection(c).remove({})))
+    return Promise.all(COLLECTIONS.map(c=>this.database.collection(c).remove({})))
   }
 }
 
-export default new InMemoryDatabase()
+export default new InMemoryMongoServer()

@@ -5,6 +5,8 @@ import toJSON                        from '../database/toJson'
 
 @Schema()
 export class User extends Document {
+  _id?: string
+
   @Prop({required: true})
   email: string
 

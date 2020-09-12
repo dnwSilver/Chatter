@@ -2,20 +2,21 @@ import {HttpStatus, INestApplication} from '@nestjs/common'
 import * as bcrypt                    from 'bcrypt'
 import * as request                   from 'supertest'
 import {SignUpDto}                    from '../../src/auth/dto/sign-up.dto'
-import inMemoryDatabase               from '../database.inmemory'
+import {User}                         from '../../src/users/user.schema'
+import InMemoryDatabase               from '../database.inmemory'
 import AppEnvironment                 from '../environments/app.environment'
 import UserEnvironment                from '../environments/user.environment'
 
 describe('auth controller', ()=>{
   let app: INestApplication
   beforeAll(async ()=>{
-    await inMemoryDatabase.start()
+    await InMemoryDatabase.start()
     await UserEnvironment.setup()
     app= await AppEnvironment.setup()
   })
 
   afterEach(async ()=>{
-    await inMemoryDatabase.cleanup()
+    await InMemoryDatabase.cleanup()
   })
 
   it('should be defined', ()=>{
@@ -33,27 +34,36 @@ describe('auth controller', ()=>{
         .expect(HttpStatus.UNAUTHORIZED)
     })
     describe('when sign up', ()=>{
+      it('response should have status created', async ()=>{
+        const body={
+          email: 'Daeny@targaryen.com',
+          login: 'MotherOfDragon',
+          name: 'Daenerys',
+          password: await bcrypt.hash('dracarys', 10)
+        }
+        const response=await request(app.getHttpServer())
+          .post('/auth/sign-up')
+          .send(body)
+          .expect(HttpStatus.CREATED)
+
+        expect(response.body).toHaveProperty('id')
+        expect(response.body.id).not.toBeUndefined()
+        expect(response.body).not.toHaveProperty('password')
+
+        const user: User=await UserEnvironment.users.findOne({email: 'Daeny@targaryen.com'})
+        expect(user.login).toBe('MotherOfDragon')
+        expect(user.email).toBe('Daeny@targaryen.com')
+        expect(user.name).toBe('Daenerys')
+        expect(user.password).toHaveLength(60)
+        expect(user._id).not.toBeUndefined()
+        expect(user._id.toString()).toBe(response.body.id)
+      })
       const signupDto: SignUpDto={
         email: 'Daeny@targaryen.com',
         login: 'MotherOfDragon',
         name: 'Daenerys',
         password: '$2b$10$KVZZbfZVNNN14oGlevEoH.ff.llu3x0rNlVV.vvlOezPVHPGbjSD6' // dracarys
       }
-
-      it('response should have status created', async ()=>{
-        await request(app.getHttpServer())
-          .post('/auth/sign-up')
-          .send(signupDto)
-          .expect(HttpStatus.CREATED)
-          .expect(response=>{
-            delete response.body.id
-            return {
-              email: 'Daeny@targaryen.com',
-              login: 'MotherOfDragon',
-              name: 'Daenerys'
-            }
-          })
-      })
       it('without email response should be bad request', async ()=>{
         const body={...signupDto}
         delete body.email
@@ -153,7 +163,7 @@ describe('auth controller', ()=>{
           .expect(HttpStatus.BAD_REQUEST)
       })
       it('when email already in use should be bad request', async ()=>{
-        UserEnvironment.addUser('Daeny@targaryen.com')
+        await UserEnvironment.addUser('Daeny@targaryen.com', 'Daeny')
         const body={
           ...signupDto,
           email: 'Daeny@targaryen.com'
@@ -167,26 +177,29 @@ describe('auth controller', ()=>{
   })
 
   describe('with auth', ()=>{
+    describe('when sign in', ()=>{
+      it('when login and password correct response should be created', async ()=>{
+        const password=await bcrypt.hash('TywinLannistersMadDog', 0)
+        await UserEnvironment.addUser('Gregor@clegane.io', 'mountain', 'Gregor', password)
+        const body={email: 'Gregor@clegane.io', password: password}
+        const response=await request(app.getHttpServer())
+          .post('/auth/sign-in')
+          .set('Accept', 'application/json')
+          .send(body)
+          .expect(HttpStatus.CREATED)
 
+        expect(response.body).toHaveProperty('token')
+        expect(response.body.token).not.toBeUndefined()
+        expect(response.body).toHaveProperty('expirationTime')
+        expect(response.body.expirationTime).not.toBeUndefined()
+      })
+    })
     describe('method GET', ()=>{
 
       it('should be authorized', async ()=>{
-        let authInfo={email: 'John@email.com', password: 'hash'}
-
-        // await request(app.getHttpServer())
-        //     .post('/auth/sign-up')
-        //     .send(regInfo)
-        //     .expect(201)
-
-        const authResponse=await request(app.getHttpServer()).post('/auth/sign-in')
-          .set('Accept', 'application/json')
-          .send(authInfo)
-          .expect(201)
-
         const response=await request(app.getHttpServer())
           .get('/auth')
           .set('Authorization', 'Bearer ${authResponse.body.access_token}')
-
         expect(response.status).toBe(HttpStatus.OK)
       })
     })
@@ -214,7 +227,7 @@ describe('auth controller', ()=>{
   })
 
   afterAll(async ()=>{
-    await inMemoryDatabase.stop()
+    await InMemoryDatabase.stop()
     await app.close()
   })
 })

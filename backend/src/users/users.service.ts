@@ -21,8 +21,8 @@ export class UsersService {
     throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND)
   }
 
-  async getById(id: number) {
-    const user=await this.userModel.findOne({id: id}).exec()
+  async getById(id: string) {
+    const user=await this.userModel.findOne({_id: id}).exec()
     if(user){
       return user
     }
