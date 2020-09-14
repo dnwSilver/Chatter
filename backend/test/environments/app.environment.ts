@@ -20,14 +20,18 @@ class AppEnvironment {
   }
 
   public async generateAccessToken(user: User): Promise<string> {
+    const password='YouDontNothing'
     if(!user){
-      throw Error('You need a user to generate a token')
+      throw Error('👌 you can\'t just take and generate token without user')
     }
     const response=await request(this.app.getHttpServer())
       .post('/auth/sign-in')
       .set('Accept', 'application/json')
-      .send({email: user.email, password: user.password})
+      .send({email: user.email, password: password})
 
+    if(!response.body.token){
+      throw Error('Failed to create a token for authorization')
+    }
     return response.body.token
   }
 }

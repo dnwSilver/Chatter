@@ -18,7 +18,7 @@ export class User extends Document {
 
   @Exclude()
   @Prop({required: true})
-  password: string
+  hashPassword: string
 }
 
 export const UserSchema=SchemaFactory.createForClass(User).method('toJSON', toJSON)

@@ -22,9 +22,9 @@ export class AuthService {
     try {
       const createdUser=await this.usersService.create({
         ...registrationData,
-        password: hashedPassword
+        hashPassword: hashedPassword
       })
-      createdUser.password=undefined
+      createdUser.hashPassword=undefined
       return createdUser
     } catch(error) {
       if(error?.code===11000){
@@ -38,21 +38,17 @@ export class AuthService {
     const payload: TokenPayload={userId}
     const token=this.jwtService.sign(payload)
     const expirationTime=this.configService.get(configConstants.jwt.expiration)
-    return {
-      token: token,
-      expirationTime: expirationTime,
-      cookie: `Authentication=${token}; HttpOnly; Path=/; Max-Age=${expirationTime}`
-    }
+    return `jwt=${token}; HttpOnly; Path=/; Max-Age=${expirationTime}`
   }
 
   public getCookieForLogOut() {
-    return `Authentication=; HttpOnly; Path=/; Max-Age=0`
+    return `jwt=; HttpOnly; Path=/; Max-Age=0`
   }
 
   public async getAuthenticatedUser(email: string, plainTextPassword: string) {
     try {
       const user=await this.usersService.getByEmail(email)
-      await this.verifyPassword(plainTextPassword, user.password)
+      await this.verifyPassword(plainTextPassword, user.hashPassword)
       return user
     } catch(error) {
       throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST)

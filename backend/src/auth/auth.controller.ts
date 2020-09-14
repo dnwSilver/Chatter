@@ -15,7 +15,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get()
   authenticate(@Req() request: RequestWithUser) {
-    delete request.user.password
+    delete request.user.hashPassword
     request.user
   }
 
@@ -28,13 +28,10 @@ export class AuthController {
   @Post('sign-in')
   async signIn(@Req() request: RequestWithUser) {
     const {user}=request
-    delete user.password
-    const {token, cookie, expirationTime}=this.authenticationService.getCookieWithJwtToken(user._id)
+    delete user.hashPassword
+    const cookie=this.authenticationService.getCookieWithJwtToken(user._id)
     request.res.setHeader('Set-Cookie', cookie)
-    return {
-      token,
-      expirationTime
-    }
+    return user
   }
 
   @UseGuards(JwtAuthGuard)

@@ -18,6 +18,6 @@ export class SignUpDto {
 
   @IsString()
   @IsNotEmpty()
-  @Length(60, 60)
+  @Length(8, 60)
   password: string
 }

@@ -33,13 +33,14 @@ describe('auth controller', ()=>{
         .expect(HttpStatus.UNAUTHORIZED)
     })
     describe('when sign up', ()=>{
+      const signupDto: SignUpDto={
+        email: 'Daeny@targaryen.com',
+        login: 'MotherOfDragon',
+        name: 'Daenerys',
+        password: 'dracarys'
+      }
       it('response should have status created', async ()=>{
-        const body={
-          email: 'Daeny@targaryen.com',
-          login: 'MotherOfDragon',
-          name: 'Daenerys',
-          password: await bcrypt.hash('dracarys', 10)
-        }
+        const body={...signupDto}
         const response=await request(app.getHttpServer())
           .post('/auth/sign-up')
           .send(body)
@@ -53,16 +54,10 @@ describe('auth controller', ()=>{
         expect(user.login).toBe('MotherOfDragon')
         expect(user.email).toBe('Daeny@targaryen.com')
         expect(user.name).toBe('Daenerys')
-        expect(user.password).toHaveLength(60)
+        expect(user.hashPassword).toHaveLength(60)
         expect(user._id).not.toBeUndefined()
         expect(user._id.toString()).toBe(response.body.id)
       })
-      const signupDto: SignUpDto={
-        email: 'Daeny@targaryen.com',
-        login: 'MotherOfDragon',
-        name: 'Daenerys',
-        password: '$2b$10$KVZZbfZVNNN14oGlevEoH.ff.llu3x0rNlVV.vvlOezPVHPGbjSD6' // dracarys
-      }
       it('without email response should be bad request', async ()=>{
         const body={...signupDto}
         delete body.email
@@ -178,46 +173,33 @@ describe('auth controller', ()=>{
   describe('with auth', ()=>{
     describe('when sign in', ()=>{
       it('when login and password correct response should be created', async ()=>{
-        const password=await bcrypt.hash('TywinLannistersMadDog', 0)
-        await userEnvironment.addUser('Gregor@clegane.io', 'mountain', 'Gregor', password)
-        const body={email: 'Gregor@clegane.io', password: password}
+        await userEnvironment.addUser('Gregor@clegane.io', 'mountain', 'Gregor', 'TywinLannistersMadDog')
+        const body={email: 'Gregor@clegane.io', password: 'TywinLannistersMadDog'}
         const response=await request(app.getHttpServer())
           .post('/auth/sign-in')
           .set('Accept', 'application/json')
           .send(body)
           .expect(HttpStatus.CREATED)
 
-        expect(response.body).toHaveProperty('token')
-        expect(response.body.token).not.toBeUndefined()
-        expect(response.body).toHaveProperty('expirationTime')
-        expect(response.body.expirationTime).not.toBeUndefined()
+        // expect(response.header.set-cookie).toContain('jwt=')
+        // expect(response.header.set-cookie).toContain('Max-Age=')
       })
-      it('should be authorized', async ()=>{
-        const password=await bcrypt.hash('TywinLannistersMadDog', 0)
-        await userEnvironment.addUser('Gregor2@clegane.io', 'mountain2', 'Gregor', password)
-        const body={email: 'Gregor2@clegane.io', password: password}
-        const response1=await request(app.getHttpServer())
-          .post('/auth/sign-in')
-          .set('Accept', 'application/json')
-          .send(body)
-          .expect(HttpStatus.CREATED)
 
-        expect(response1.body).toHaveProperty('token')
-        expect(response1.body.token).not.toBeUndefined()
-        const accessToken=response1.body.token
-
-        // const accessToken=await appEnvironment.generateAccessToken(userEnvironment.currentUser)
-        await request(app.getHttpServer())
-          .get('/auth')
-          .set('Cookie', `Authentication=${accessToken};HttpOnly;Path=/;Max-Age=${60}`)
-          .expect(HttpStatus.OK)
-      })
       it('disallow invalid credentials', async ()=>{
         const authInfo={username: 'wrong', password: 'bad'}
         await request(app.getHttpServer())
           .post('sign-in')
           .send(authInfo)
           .expect(HttpStatus.UNAUTHORIZED)
+      })
+
+      it('when token valid and not expired response should be authorized', async ()=>{
+        await userEnvironment.setup()
+        const accessToken=await appEnvironment.generateAccessToken(userEnvironment.currentUser)
+        await request(app.getHttpServer())
+          .get('/auth')
+          .set('Cookie', `jwt=${accessToken};HttpOnly;Path=/;Max-Age=${60}`)
+          .expect(HttpStatus.OK)
       })
     })
   })
