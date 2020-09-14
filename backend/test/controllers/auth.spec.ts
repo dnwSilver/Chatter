@@ -3,20 +3,19 @@ import * as bcrypt                    from 'bcrypt'
 import * as request                   from 'supertest'
 import {SignUpDto}                    from '../../src/auth/dto/sign-up.dto'
 import {User}                         from '../../src/users/user.schema'
-import InMemoryDatabase               from '../database.inmemory'
-import AppEnvironment                 from '../environments/app.environment'
-import UserEnvironment                from '../environments/user.environment'
+import inMemoryDatabase               from '../database.inmemory'
+import appEnvironment                 from '../environments/app.environment'
+import userEnvironment                from '../environments/user.environment'
 
 describe('auth controller', ()=>{
   let app: INestApplication
   beforeAll(async ()=>{
-    await InMemoryDatabase.start()
-    await UserEnvironment.setup()
-    app= await AppEnvironment.setup()
+    await inMemoryDatabase.start()
+    app= await appEnvironment.setup()
   })
 
   afterEach(async ()=>{
-    await InMemoryDatabase.cleanup()
+    await inMemoryDatabase.cleanup()
   })
 
   it('should be defined', ()=>{
@@ -50,7 +49,7 @@ describe('auth controller', ()=>{
         expect(response.body.id).not.toBeUndefined()
         expect(response.body).not.toHaveProperty('password')
 
-        const user: User=await UserEnvironment.users.findOne({email: 'Daeny@targaryen.com'})
+        const user: User=await userEnvironment.users.findOne({email: 'Daeny@targaryen.com'})
         expect(user.login).toBe('MotherOfDragon')
         expect(user.email).toBe('Daeny@targaryen.com')
         expect(user.name).toBe('Daenerys')
@@ -163,7 +162,7 @@ describe('auth controller', ()=>{
           .expect(HttpStatus.BAD_REQUEST)
       })
       it('when email already in use should be bad request', async ()=>{
-        await UserEnvironment.addUser('Daeny@targaryen.com', 'Daeny')
+        await userEnvironment.addUser('Daeny@targaryen.com', 'Daeny')
         const body={
           ...signupDto,
           email: 'Daeny@targaryen.com'
@@ -180,7 +179,7 @@ describe('auth controller', ()=>{
     describe('when sign in', ()=>{
       it('when login and password correct response should be created', async ()=>{
         const password=await bcrypt.hash('TywinLannistersMadDog', 0)
-        await UserEnvironment.addUser('Gregor@clegane.io', 'mountain', 'Gregor', password)
+        await userEnvironment.addUser('Gregor@clegane.io', 'mountain', 'Gregor', password)
         const body={email: 'Gregor@clegane.io', password: password}
         const response=await request(app.getHttpServer())
           .post('/auth/sign-in')
@@ -193,41 +192,38 @@ describe('auth controller', ()=>{
         expect(response.body).toHaveProperty('expirationTime')
         expect(response.body.expirationTime).not.toBeUndefined()
       })
-    })
-    describe('method GET', ()=>{
-
       it('should be authorized', async ()=>{
-        const response=await request(app.getHttpServer())
+        const password=await bcrypt.hash('TywinLannistersMadDog', 0)
+        await userEnvironment.addUser('Gregor2@clegane.io', 'mountain2', 'Gregor', password)
+        const body={email: 'Gregor2@clegane.io', password: password}
+        const response1=await request(app.getHttpServer())
+          .post('/auth/sign-in')
+          .set('Accept', 'application/json')
+          .send(body)
+          .expect(HttpStatus.CREATED)
+
+        expect(response1.body).toHaveProperty('token')
+        expect(response1.body.token).not.toBeUndefined()
+        const accessToken=response1.body.token
+
+        // const accessToken=await appEnvironment.generateAccessToken(userEnvironment.currentUser)
+        await request(app.getHttpServer())
           .get('/auth')
-          .set('Authorization', 'Bearer ${authResponse.body.access_token}')
-        expect(response.status).toBe(HttpStatus.OK)
+          .set('Cookie', `Authentication=${accessToken};HttpOnly;Path=/;Max-Age=${60}`)
+          .expect(HttpStatus.OK)
       })
-    })
-
-    describe('method POST (sign-in)', ()=>{
-      const url='/auth/sign-in'
-
       it('disallow invalid credentials', async ()=>{
         const authInfo={username: 'wrong', password: 'bad'}
-        const response=await request(app.getHttpServer())
-          .post(url)
+        await request(app.getHttpServer())
+          .post('sign-in')
           .send(authInfo)
-        expect(response.status).toBe(HttpStatus.UNAUTHORIZED)
-      })
-
-      it('return an authorization token for valid credentials', async ()=>{
-        const authInfo={username: 'john', password: 'changeme'}
-        const response=await request(app.getHttpServer())
-          .post(url)
-          .send(authInfo)
-        expect(response.status).toBe(HttpStatus.CREATED)
-        expect(response.body.access_token).toBe('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvaG4iLCJzdWIiOjEsImlhdCI6MTU5ODgxMzM1NCwiZXhwIjoxNTk4ODEzNDE0fQ.ITimEs3BQkR0hFo6O1On_YodyDScgLiR_GdghJYP6Hg')
+          .expect(HttpStatus.UNAUTHORIZED)
       })
     })
   })
 
   afterAll(async ()=>{
-    await InMemoryDatabase.stop()
+    await inMemoryDatabase.stop()
     await app.close()
   })
 })

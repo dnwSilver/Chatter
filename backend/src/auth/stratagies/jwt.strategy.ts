@@ -14,9 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly userService: UsersService
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([(request: Request)=>{
-        return request?.cookies?.Authentication
-      }]),
+      jwtFromRequest: ExtractJwt.fromExtractors([(request: Request)=>parseCookies(request)['authentication']]),
       secretOrKey: configService.get(configConstants.jwt.secret)
     })
   }
@@ -24,4 +22,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: TokenPayload) {
     return this.userService.getById(payload.userId)
   }
+}
+
+const parseCookies=function(request) {
+  const cookies={}
+  request.headers?.cookie?.split(';').forEach(function(cookie) {
+    const parts=cookie.match(/(.*?)=(.*)$/)
+    if(parts)
+      cookies[parts[1].trim()]=(parts[2]||'').trim()
+  })
+  return cookies
 }
