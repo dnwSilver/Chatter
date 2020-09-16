@@ -6,6 +6,7 @@ import {configConstants}                       from '../config/constants'
 import {UsersService}                          from '../users/users.service'
 import {SignUpDto}                             from './dto/sign-up.dto'
 import {TokenPayload}                          from './interfaces/tokenPayload.interface'
+import {expirationTimeName, tokenName}         from './stratagies/jwt.constants'
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,16 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService
   ) {
+  }
+
+  private static async verifyPassword(plainTextPassword: string, hashedPassword: string) {
+    const isPasswordMatching=await bcrypt.compare(
+      plainTextPassword,
+      hashedPassword
+    )
+    if(!isPasswordMatching){
+      throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST)
+    }
   }
 
   public async register(registrationData: SignUpDto) {
@@ -38,29 +49,19 @@ export class AuthService {
     const payload: TokenPayload={userId}
     const token=this.jwtService.sign(payload)
     const expirationTime=this.configService.get(configConstants.jwt.expiration)
-    return `jwt=${token}; HttpOnly; Path=/; Max-Age=${expirationTime}`
+    return `${tokenName}=${token}; HttpOnly; Path=/; ${expirationTimeName}=${expirationTime}`
   }
 
   public getCookieForLogOut() {
-    return `jwt=; HttpOnly; Path=/; Max-Age=0`
+    return `${tokenName}=; HttpOnly; Path=/; ${expirationTimeName}=0`
   }
 
   public async getAuthenticatedUser(email: string, plainTextPassword: string) {
     try {
       const user=await this.usersService.getByEmail(email)
-      await this.verifyPassword(plainTextPassword, user.hashPassword)
+      await AuthService.verifyPassword(plainTextPassword, user.hashPassword)
       return user
     } catch(error) {
-      throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST)
-    }
-  }
-
-  private async verifyPassword(plainTextPassword: string, hashedPassword: string) {
-    const isPasswordMatching=await bcrypt.compare(
-      plainTextPassword,
-      hashedPassword
-    )
-    if(!isPasswordMatching){
       throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST)
     }
   }

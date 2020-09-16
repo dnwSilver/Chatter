@@ -2,7 +2,8 @@ import {INestApplication, ValidationPipe} from '@nestjs/common'
 import {Test}                             from '@nestjs/testing'
 import * as request                       from 'supertest'
 import {AppModule}                        from '../../src/app.module'
-import {User}                             from '../../src/users/user.schema'
+import {parseCookiesFromResponse}         from '../../src/utils/parseCookies'
+import userEnvironment                    from './user.environment'
 
 class AppEnvironment {
   private app: INestApplication
@@ -19,20 +20,26 @@ class AppEnvironment {
     return app
   }
 
-  public async generateAccessToken(user: User): Promise<string> {
-    const password='YouDontNothing'
-    if(!user){
+  public async generateAccessToken({email=undefined, password=undefined}): Promise<string> {
+    if(!email){
+      email='Gregor@clegane.io'
+      password='TywinLannistersMadDog'
+      await userEnvironment.addUser({email, realPassword: password})
+    }
+
+    if(!userEnvironment.users.find({email})){
       throw Error('👌 you can\'t just take and generate token without user')
     }
     const response=await request(this.app.getHttpServer())
       .post('/auth/sign-in')
       .set('Accept', 'application/json')
-      .send({email: user.email, password: password})
+      .send({email: email, password: password})
 
-    if(!response.body.token){
-      throw Error('Failed to create a token for authorization')
+    const token=parseCookiesFromResponse(response)['Token']
+    if(!token){
+      throw Error('🧨 failed to create a token for authorization')
     }
-    return response.body.token
+    return token
   }
 }
 

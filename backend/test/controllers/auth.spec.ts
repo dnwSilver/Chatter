@@ -157,7 +157,7 @@ describe('auth controller', ()=>{
           .expect(HttpStatus.BAD_REQUEST)
       })
       it('when email already in use should be bad request', async ()=>{
-        await userEnvironment.addUser('Daeny@targaryen.com', 'Daeny')
+        await userEnvironment.addUser({email: 'Daeny@targaryen.com'})
         const body={
           ...signupDto,
           email: 'Daeny@targaryen.com'
@@ -173,7 +173,7 @@ describe('auth controller', ()=>{
   describe('with auth', ()=>{
     describe('when sign in', ()=>{
       it('when login and password correct response should be created', async ()=>{
-        await userEnvironment.addUser('Gregor@clegane.io', 'mountain', 'Gregor', 'TywinLannistersMadDog')
+        await userEnvironment.addUser({email: 'Gregor@clegane.io', realPassword: 'TywinLannistersMadDog'})
         const body={email: 'Gregor@clegane.io', password: 'TywinLannistersMadDog'}
         const response=await request(app.getHttpServer())
           .post('/auth/sign-in')
@@ -181,31 +181,47 @@ describe('auth controller', ()=>{
           .send(body)
           .expect(HttpStatus.CREATED)
 
-        // expect(response.header.set-cookie).toContain('jwt=')
-        // expect(response.header.set-cookie).toContain('Max-Age=')
+        const cookies=response.get('Set-Cookie')[0]
+        expect(cookies).toContain('Token=')
+        expect(cookies).toContain('Expiration-Time=')
       })
-
-      it('disallow invalid credentials', async ()=>{
-        const authInfo={username: 'wrong', password: 'bad'}
+      it('when login invalid response should be bad request', async ()=>{
+        await userEnvironment.addUser({email: 'Gregor@clegane.io', realPassword: 'TywinLannistersMadDog'})
+        const body={email: 'Sandor@clegane.io', password: 'TywinLannistersMadDog'}
         await request(app.getHttpServer())
-          .post('sign-in')
-          .send(authInfo)
-          .expect(HttpStatus.UNAUTHORIZED)
+          .post('/auth/sign-in')
+          .set('Accept', 'application/json')
+          .send(body)
+          .expect(HttpStatus.BAD_REQUEST)
       })
-
+      it('when password invalid response should be bad request', async ()=>{
+        await userEnvironment.addUser({email: 'Gregor@clegane.io', realPassword: 'TywinLannistersMadDog'})
+        const body={email: 'Gregor@clegane.io', password: 'TheSeventhHell'}
+        await request(app.getHttpServer())
+          .post('/auth/sign-in')
+          .set('Accept', 'application/json')
+          .send(body)
+          .expect(HttpStatus.BAD_REQUEST)
+      })
       it('when token valid and not expired response should be authorized', async ()=>{
-        await userEnvironment.setup()
-        const accessToken=await appEnvironment.generateAccessToken(userEnvironment.currentUser)
+        const accessToken=await appEnvironment.generateAccessToken({})
         await request(app.getHttpServer())
           .get('/auth')
-          .set('Cookie', `jwt=${accessToken};HttpOnly;Path=/;Max-Age=${60}`)
+          .set('Cookie', `Token=${accessToken};HttpOnly;Path=/;Expiration-Time=${60}`)
           .expect(HttpStatus.OK)
       })
+      it('when token invalid response should be unauthorized', async ()=>{
+        const accessToken='bad_token'
+        await request(app.getHttpServer())
+          .get('/auth')
+          .set('Cookie', `Token=${accessToken};HttpOnly;Path=/;Expiration-Time=${60}`)
+          .expect(HttpStatus.UNAUTHORIZED)
+      })
     })
-  })
 
-  afterAll(async ()=>{
-    await inMemoryDatabase.stop()
-    await app.close()
+    afterAll(async ()=>{
+      await inMemoryDatabase.stop()
+      await app.close()
+    })
   })
 })

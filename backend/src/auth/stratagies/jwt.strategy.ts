@@ -1,11 +1,13 @@
-import {Injectable}           from '@nestjs/common'
-import {ConfigService}        from '@nestjs/config'
-import {PassportStrategy}     from '@nestjs/passport'
-import {Request}              from 'express'
-import {ExtractJwt, Strategy} from 'passport-jwt'
-import {configConstants}      from '../../config/constants'
-import {UsersService}         from '../../users/users.service'
-import {TokenPayload}         from '../interfaces/tokenPayload.interface'
+import {Injectable}              from '@nestjs/common'
+import {ConfigService}           from '@nestjs/config'
+import {PassportStrategy}        from '@nestjs/passport'
+import {Request}                 from 'express'
+import {ExtractJwt, Strategy}    from 'passport-jwt'
+import {configConstants}         from '../../config/constants'
+import {UsersService}            from '../../users/users.service'
+import {parseCookiesFromRequest} from '../../utils/parseCookies'
+import {TokenPayload}            from '../interfaces/tokenPayload.interface'
+import {tokenName}               from './jwt.constants'
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly userService: UsersService
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([(request: Request)=>parseCookies(request)['jwt']]),
+      jwtFromRequest: ExtractJwt.fromExtractors([(request: Request)=>parseCookiesFromRequest(request)[tokenName]]),
       secretOrKey: configService.get(configConstants.jwt.secret)
     })
   }
@@ -22,14 +24,4 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: TokenPayload) {
     return this.userService.getById(payload.userId)
   }
-}
-
-const parseCookies=function(request) {
-  const cookies={}
-  request.headers?.cookie?.split(';').forEach(function(cookie) {
-    const parts=cookie.match(/(.*?)=(.*)$/)
-    if(parts)
-      cookies[parts[1].trim()]=(parts[2]||'').trim()
-  })
-  return cookies
 }

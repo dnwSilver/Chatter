@@ -12,9 +12,12 @@ class InMemoryMongoServer {
 
   async start() {
     const url=await this.server.getConnectionString()
+    const mongoose=require('mongoose')
+    mongoose.set('useNewUrlParser', true)
+    mongoose.set('useFindAndModify', false)
+    mongoose.set('useCreateIndex', true)
     this.connection= await MongoClient.connect(url, {
       useUnifiedTopology: true,
-      useCreateIndex: true,
       useNewUrlParser: true
     })
     this.database=this.connection.db(await this.server.getDbName())

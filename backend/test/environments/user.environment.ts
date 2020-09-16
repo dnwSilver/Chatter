@@ -7,25 +7,24 @@ const userCollectionName: string='users'
 
 class UserEnvironment {
   public currentUser: User
+  private usersCount: number=0
 
   public get users(): Collection<User> {
     return InMemoryMongoServer.database.collection(userCollectionName)
   }
 
-  public async setup() {
-    this.currentUser= await this.addUser()
-  }
-
-  public async addUser(
-    email: string=undefined,
-    login: string=undefined,
-    name: string=undefined,
-    realPassword: string=undefined): Promise<User> {
-    const hashPassword=await bcrypt.hash(realPassword??'YouDontNothing', 10)
+  public async addUser({
+                         email=undefined,
+                         login=undefined,
+                         name=undefined,
+                         realPassword=undefined
+                       }): Promise<User> {
+    this.usersCount++
+    const hashPassword=await bcrypt.hash(realPassword??'ValarMorghulis', 10)
     const user: User={
-      email: email??'john@snow.com',
-      login: login??'john89',
-      name: name??'John',
+      email: email??`faceless${this.usersCount}@BlackWhiteHouse.su`,
+      login: login??`faceless${this.usersCount}`,
+      name: name??'Faceless',
       hashPassword: hashPassword
     }
 

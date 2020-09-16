@@ -17,7 +17,7 @@ Hash and salt with bcrypt, in real projects it is better to use another library 
 #### Authorization
 Authorization implemented using cookies. Cookies contain the following values:
 ```
-jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjVmMTAzZjcyY2Q2NGMzMGI3ZTU5MzciLCJpYXQiOjE2MDAwNjU2MDIsImV4cCI6MTYwMDA2NTY2Mn0.w3W9cPW0uzYzSxfsgpjDhLCklIPoc9axKTOkYUixSLM; 
+JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZjVmMTAzZjcyY2Q2NGMzMGI3ZTU5MzciLCJpYXQiOjE2MDAwNjU2MDIsImV4cCI6MTYwMDA2NTY2Mn0.w3W9cPW0uzYzSxfsgpjDhLCklIPoc9axKTOkYUixSLM; 
 HttpOnly; 
 Path=/; 
 Max-Age=60
