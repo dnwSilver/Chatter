@@ -1,31 +1,31 @@
 import icon, {IconType} from '../../resources/icon'
 
-export type Activity = {
-    name: string
-    url: string
-    icon: IconType
+export type Activity={
+  name: string
+  url: string
+  icon: IconType
 }
 
-const dialogActivity: Activity = {
-    name: 'Диалоги',
-    url: '/Dialogs',
-    icon: icon.chat
+const dialogActivity: Activity={
+  name: 'Диалоги',
+  url: '/Dialogs',
+  icon: icon.chat
 }
 
-const profileActivity: Activity = {
-    name: 'Профиль',
-    url: '/Profile',
-    icon: icon.profile
+const profileActivity: Activity={
+  name: 'Профиль',
+  url: '/Profile',
+  icon: icon.profile
 }
 
-const signInActivity: Activity = {
-    name: 'Вход',
-    url: '/SignIn',
-    icon: icon.sign
+const signInActivity: Activity={
+  name: 'Вход',
+  url: '/SignIn',
+  icon: icon.sign
 }
 
 export default {
-    dialogs: dialogActivity,
-    profile: profileActivity,
-    signIn: signInActivity
+  dialogs: dialogActivity,
+  profile: profileActivity,
+  signIn: signInActivity
 }

@@ -1,23 +1,23 @@
 import React, {PropsWithChildren, ReactNode} from 'react'
-import CustomerLayoutDesktop from './Desktop/CustomerLayoutDesktop'
-import CustomerLayoutMobile from './Mobile/CustomerLayoutMobile'
-import PlatformConsumer from '../../contexts/platforms/PlatformConsumer'
+import PlatformConsumer                      from '../../contexts/platforms/PlatformConsumer'
+import CustomerLayoutDesktop                 from './Desktop/CustomerLayoutDesktop'
+import CustomerLayoutMobile                  from './Mobile/CustomerLayoutMobile'
 
-const CustomerLayoutContainer = ({header, children}: Props) => {
-    const desktopRender = <CustomerLayoutDesktop header={header}
-                                                 body={children}/>
+const CustomerLayoutContainer=({header, children}: Props)=>{
+  const desktopRender=<CustomerLayoutDesktop header={header}
+                                             body={children}/>
 
-    const mobileRender = <CustomerLayoutMobile header={header}
-                                               body={children}/>
+  const mobileRender=<CustomerLayoutMobile header={header}
+                                           body={children}/>
 
-    return <PlatformConsumer desktopVersion={desktopRender}
-                             mobileVersion={mobileRender}/>
+  return <PlatformConsumer desktopVersion={desktopRender}
+                           mobileVersion={mobileRender}/>
 }
 
-type OwnProps = {
-    header: ReactNode
+type OwnProps={
+  header: ReactNode
 }
 
-type Props = PropsWithChildren<OwnProps>
+type Props=PropsWithChildren<OwnProps>
 
 export default CustomerLayoutContainer
