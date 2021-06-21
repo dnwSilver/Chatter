@@ -1,9 +1,9 @@
 import {Action}     from 'redux'
 import InferActions from './InferActions'
 
-const actionPrefix: string='DIALOGS'
+const actionPrefix='DIALOGS'
 
-export const SEND_MESSAGE_SUCCESS: string=`${actionPrefix}/SEND_MESSAGE_SUCCESS`
+export const SEND_MESSAGE_SUCCESS=`${actionPrefix}/SEND_MESSAGE_SUCCESS`
 
 export type SendMessageAction=Action<typeof SEND_MESSAGE_SUCCESS> & {
   newMessageBody: string
